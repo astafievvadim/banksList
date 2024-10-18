@@ -4,15 +4,13 @@ package com.example.banksList.fullDirectory;
 import com.example.banksList.bicDirectoryEntry.BicDirectoryEntry;
 import com.example.banksList.initialED.InitialED;
 import com.example.banksList.part.PartInfo;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 //Why would I make it a record? My guess is that these should be immutable entries. This whole thing should work as a dictionary.
@@ -21,74 +19,110 @@ import java.util.List;
 public record FullDirectory(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        int Id,
+        Long Id,
         @NonNull
-        int EDNo, //1
+        int eDNo, //1
         @NonNull
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        Date EDDate, //YYYY-MM-DD ex: 2023-05-18 //1
+        Date eDDate, //YYYY-MM-DD ex: 2023-05-18 //1
         @NonNull
-        String EDAuthor, // 1
+        String eDAuthor, // 1
         @Nullable
-        String EDReceiver,// 0..1
+        String eDReceiver,// 0..1
         @NonNull
-        String CreationReason,//1
+        String creationReason,//1
         @NonNull
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        Date CreationDateTime, //YYYY-MM-DDtHH:MM:SS:TIMEZONE ex 2023-05-17T18:31:47Z //1
+        Date creationDateTime, //YYYY-MM-DDtHH:MM:SS:TIMEZONE ex 2023-05-17T18:31:47Z //1
         @NonNull
-        String InfoTypeCode, //1
+        String infoTypeCode, //1
         @NonNull
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        Date BusinessDay, //1
+        Date businessDay, //1
         @Nullable
-        Byte DirectoryVersion, //0...1
+        Byte directoryVersion, //0...1
         @Nullable
-        PartInfo PartInfo, //0..1
+        PartInfo partInfo, //0..1
         @Nullable
-        InitialED InitialED, //0..1
+        InitialED initialED, //0..1
         @Nullable
-        List<BicDirectoryEntry> BicDirectoryEntry//0..n multiple to one huh
+        @OneToMany(mappedBy = "fullDirectory")
+        HashSet<BicDirectoryEntry> bicDirectoryEntry//0..n multiple to one huh
 
 ) {
+        public FullDirectory(
+                Long Id, @NonNull
+                int eDNo, @NonNull
+                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                Date eDDate, @NonNull
+                String eDAuthor, @Nullable
+                String eDReceiver, @NonNull
+                String creationReason, @NonNull
+                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                Date creationDateTime, @NonNull
+                String infoTypeCode, @NonNull
+                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                Date businessDay, @Nullable
+                Byte directoryVersion, @Nullable
+                PartInfo partInfo, @Nullable
+                InitialED initialED, @Nullable
+                HashSet<BicDirectoryEntry> bicDirectoryEntry) {
+                this.Id = Id;
+                this.eDNo = eDNo;
+                this.eDDate = eDDate;
+                this.eDAuthor = eDAuthor;
+                this.eDReceiver = eDReceiver;
+                this.creationReason = creationReason;
+                this.creationDateTime = creationDateTime;
+                this.infoTypeCode = infoTypeCode;
+                this.businessDay = businessDay;
+                this.directoryVersion = directoryVersion;
+                this.partInfo = partInfo;
+                this.initialED = initialED;
+                this.bicDirectoryEntry = bicDirectoryEntry;
+        }
+
+        public FullDirectory() {
+        }
+
         public int getEDNo() {
-                return EDNo;
+                return eDNo;
         }
         
         public Date EDDate() {
-                return EDDate;
+                return eDDate;
         }
         
         public String getEDAuthor() {
-                return EDAuthor;
+                return eDAuthor;
         }
 
         public String getEDReceiver() {
-                return EDReceiver;
+                return eDReceiver;
         }
 
-         
+
         public String getCreationReason() {
-                return CreationReason;
+                return creationReason;
         }
 
          
         public Date getCreationDateTime() {
-                return CreationDateTime;
+                return creationDateTime;
         }
 
          
         public String getInfoTypeCode() {
-                return InfoTypeCode;
+                return infoTypeCode;
         }
 
          
         public Date getBusinessDay() {
-                return BusinessDay;
+                return businessDay;
         }
 
          
         public Byte getDirectoryVersion() {
-                return DirectoryVersion;
+                return directoryVersion;
         }
 }

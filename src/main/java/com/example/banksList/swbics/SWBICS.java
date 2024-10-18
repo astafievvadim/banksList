@@ -6,7 +6,8 @@ import jakarta.persistence.GenerationType;
 public record SWBICS(
         @jakarta.persistence.Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        String SWBIC,
-        boolean DefaultSWBIC
+        Long id,
+        String swbic,
+        boolean defaultSWBIC
 ) {
 }

@@ -5,28 +5,33 @@ import com.example.banksList.part.PartInfo;
 import com.example.banksList.participant.ParticipantInfo;
 import com.example.banksList.rstrList.RstrList;
 import com.example.banksList.swbics.SWBICS;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
+import java.util.HashSet;
+import java.util.List;
+@Entity
 public record BicDirectoryEntry(
-        @jakarta.persistence.Id
+        @org.springframework.data.annotation.Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        int Id,
+        Long id,
         @NonNull
-        int BIC,//1
+        int bic,//1
         @Nullable
-        String ChangeType,//0...1
+        String changeType,//0...1
         @NonNull
         ParticipantInfo participantInfo, //1
         @Nullable
-        RstrList RstrList,//0...n
+        @OneToMany(mappedBy = "BicDirectoryEntry")
+        HashSet<RstrList> rstrList,//0...n
         @Nullable
-        SWBICS SWBICS,//0...n
+        @OneToMany(mappedBy = "BicDirectoryEntry")
+        HashSet<SWBICS> swbics,//0...n
         @Nullable
-        Accounts accounts //0...n
+        @OneToMany(mappedBy = "BicDirectoryEntry")
+        HashSet<Accounts> accounts //0...n
 ) {
 
 

@@ -9,26 +9,26 @@ import java.util.Date;
 public record ParticipantInfo (
         @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int Id,
-        String NameP, //1
-        String EnglName,//1
-        String RegN,//1
-        String CntrCd,
-        String Rgn,
-        String Ind,
-        String Tnp,
-        String Nnp,
-        String Adr,
-        int PrntBIC,
+        Long id,
+        String nameP, //1
+        String englName,//1
+        String regN,//1
+        String cntrCd,
+        String rgn,
+        String ind,
+        String tnp,
+        String nnp,
+        String adr,
+        int prntBIC,
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        Date DateIn, //YYYY-MM-DD ex: 2023-05-18 //1
+        Date dateIn, //YYYY-MM-DD ex: 2023-05-18 //1
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-        Date DateOut, //YYYY-MM-DD ex: 2023-05-18 //1
-        String PtType,
-        char Srvcs,
-        char XchType,
-        String UID,
-        String ParticipantStatus
+        Date dateOut, //YYYY-MM-DD ex: 2023-05-18 //1
+        String ptType,
+        char srvcs,
+        char xchType,
+        String uid,
+        String participantStatus
 
     ){
 }
